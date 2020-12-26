@@ -1,6 +1,7 @@
 import flask
-from flask import request, jsonify
+from flask import request, render_template, jsonify
 import db_connection
+import processing
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -40,4 +41,32 @@ def get_subject():
         rr.append(rt)
     return jsonify(rr)
 
-app.run()
+@app.route('/api/v1/resource/Score/all', methods=['GET'])
+def get_score():
+    rr = processing.get_score()
+    return jsonify(rr)
+
+@app.route('/api/v1/resource/skillGraph/all', methods=['GET'])
+def get_skillgraph():
+    rr = processing.processing_skill_value(processing.processing_subject(processing.get_score("ST0003")))
+    return jsonify(rr)
+
+@app.route('/login',methods = ['POST', 'GET'])
+def login():
+    if request.method == 'GET':
+        return render_template("login.html")
+    else:
+        id = request.form['id'] 
+        password = request.form['password']
+        
+        db = db_connection.db_connection()
+        data = db.query("SELECT * FROM `user` WHERE user_id = \""+ id + "\" and user_password = \"" + password + "\"")
+        if len(data) == 0:
+            pass
+    
+@app.route('/index')
+def index():
+    return render_template("index_test.html")
+
+if __name__ == "main":
+    app.run()

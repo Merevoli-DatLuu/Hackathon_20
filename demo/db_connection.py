@@ -1,16 +1,28 @@
 import mysql.connector
 
 class db_connection:
-    def __init__(self, host, user, pass, dbname):
+    def __init__(self, host, user, password, dbname):
         self.host = host
         self.user = user
-        self.pass = pass
+        self.password = password
         self.dbname = dbname
         self.mydb =  mysql.connector.connect(
             host = host,
             user = user,
-            password = pass,
+            password = password,
             database = dbname
+        )
+
+    def __init__(self):
+        self.host = 'localhost'
+        self.user = 'root'
+        self.password = ''
+        self.dbname = 'hackathon'
+        self.mydb =  mysql.connector.connect(
+            host = self.host,
+            user = self.user,
+            password = self.password,
+            database = self.dbname
         )
 
     def query(self, query_str):

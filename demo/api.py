@@ -1,5 +1,6 @@
 import flask
 from flask import request, jsonify
+import db_connection
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -25,5 +26,18 @@ books = [
 @app.route('/api/v1/resources/books/all', methods=['GET'])
 def api_all():
     return jsonify(books)
+
+@app.route('/api/v1/resource/subject/all', methods=['GET'])
+def get_subject():
+    db = db_connection.db_connection()
+    data = db.query("SELECT * FROM Subject")
+    header = ["id", "name"]
+    rr = []
+    for i in data:
+        rt = {}
+        for j in range(len(header)):
+            rt[header[j]] = i[j]
+        rr.append(rt)
+    return jsonify(rr)
 
 app.run()

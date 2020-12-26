@@ -39,7 +39,6 @@ def processing_subject(data):
             if d['subject_name'] == subject:
                 score[subject] += d['exam_heso']*d['exam_score']
                 sum_heso += d['exam_heso']
-                print(d['exam_heso']*d['exam_score'])
         if (sum_heso != 0):
             score[subject] /= sum_heso
         else:
@@ -51,19 +50,32 @@ def processing_skill(data):
     hesomon = init_hesomon()
     skills = ["SUY LUẬN", "XỬ LÝ", "GHI NHỚ", "KĨ THUẬT", "SỨC KHOẺ", "SÁNG TẠO", "CẢM XÚC", "GIAO TIẾP"]
     score = {}
+    sum_heso = {}
 
     for skill in skills:
         score[skill] = 0
+        sum_heso[skill] = 0
     for d in data:
-        for skill in data[d]:
+        for skill in hesomon[d]:
             score[skill] += hesomon[d][skill]*data[d]
-        
+            sum_heso[skill] += hesomon[d][skill]
+    
+    for i in score:
+        score[i] /= sum_heso[i]
     print(score)
+    return score
 
+def processing_skill_value(data):
+    rr = processing_skill(data)
+    res = []
+    for i in rr:
+        res.append(rr[i])
+    print(res)
+    return res;
 
-def get_score():
+def get_score(student_id):
     db = db_connection.db_connection()
-    data = db.query("SELECT student.student_id, student.student_name, Exam.subject_id, subject.subject_name, Exam.exam_id, exam_name, exam_heso, exam_score, exam_date FROM Student, student_subject, subject, Exam WHERE student.student_id = student_subject.student_id and student_subject.subject_id = Subject.subject_id and subject.subject_id = Exam.subject_id")
+    data = db.query("SELECT student.student_id, student.student_name, Exam.subject_id, subject.subject_name, Exam.exam_id, exam_name, exam_heso, exam_score, exam_date FROM Student, student_subject, subject, Exam WHERE student.student_id = student_subject.student_id and student_subject.subject_id = Subject.subject_id and subject.subject_id = Exam.subject_id and student.student_id = '" + student_id + "'")
     header = ["student_id", "student_name", "subject_id", "subject_name", "exam_id", "exam_name", "exam_heso", "exam_score", "exam_date"]
     rr = []
     for i in data:

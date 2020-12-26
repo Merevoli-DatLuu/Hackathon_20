@@ -1182,7 +1182,7 @@ section {
 
 /* ----- Header ----- */
 .header-desktop {
-    background: #f5f5f5;
+    background: rgba(123, 207, 255, 0.7);
     -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
@@ -1587,7 +1587,7 @@ section {
 }
 
 .menu-sidebar .logo {
-    background: #f5f5f5;
+    background: #9dbefa;
     height: 75px;
     padding: 0 35px;
     display: -webkit-box;
@@ -1627,6 +1627,7 @@ section {
 .navbar-sidebar {
     padding: 35px;
     padding-bottom: 0;
+    /* background-color: #9dbefa; */
 }
 
 .navbar-sidebar .navbar__list li a {
@@ -1641,11 +1642,11 @@ section {
 }
 
 .navbar-sidebar .navbar__list li a:hover {
-    color: #4272d7;
+    color:#5888e0;
 }
 
 .navbar-sidebar .navbar__list li.active > a {
-    color: #4272d7;
+    color:#5888e0;
 }
 
 .has-sub {
